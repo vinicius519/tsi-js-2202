@@ -14,7 +14,6 @@ let prazo = prompt('entre com o serviço: \n0 - um dia \n1 - dois dias \n2 - tre
 
 
 if(validaEntrada(servico) && validaEntrada(prazo)){
-
     alert("O serviço ficara em: " + tabela[servico][prazo]);
 }else{
 
