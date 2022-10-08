@@ -37,11 +37,11 @@ ElementoAncora.appendChild(elementoIcone);
 
 novoItemNalista.appendChild(ElementoAncora);
 
-//let elementoUele = document.querySelector('ul.collection');
+let elementoUele = document.querySelector('ul.collection');
 
-console.log(novoItemNaLista);
+console.log(novoItemNalista);
 
 //como capturar o <ul> pela class
 
-let elementoUele = document.getElementsByClassName('collect')
-elementoUele[0].appendChild(novoItemNalista);
+/*let elementoUele = document.getElementsByClassName('collect')
+elementoUele[0].appendChild(novoItemNalista);*/
