@@ -1,41 +1,49 @@
-document.querySelector('button').addEventListener('click', mostrarIpca);
+document.querySelector('button').addEventListener('click', mostraIpca);
 
-function mostrarIpca(evento){
-    evento.preventDefault();
+function mostraIpca(){
+    document.getElementById('ipca').innerHTML = "";
+    
+    let anoEscolhido = document.getElementById('EscolhaAno').value;
 
-    const url ='https://api.bcb.gov.br/dados/serie/bcdata.sgs.4448/dados?formato=json&dataInicial=20201101'
+    const url = 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.4448/dados?formato=json&dataInicial=20201101';
 
     fetch(url).then(function(retorno){
-
         return retorno.text();
     }).then(function(stringJson){
+        const indices = JSON.parse(stringJson);
 
-        console.log(stringJson);
+        let indice;
+        let ipca = [];
 
-        jsonParaMorris = {
+        indices.forEach(function(mes){
+            anoString = mes.data.substring(6, 10);
+            mesString = mes.data.substring(3, 5);
+            anoMesString = anoString + '-' + mesString;
 
-            element: 'ipca',
-            
-            data: [
-              { year: '2008', value: 20 },
-              { year: '2009', value: 10 },
-              { year: '2010', value: 5 },
-              { year: '2011', value: 5 },
-              { year: '2013', value: 30 },
-              { year: '2014', value: 50 }
-            ],
- 
-            xkey: 'year',
+            indice = parseFloat(mes.valor);
 
-            ykeys: ['value'],
-            
-            labels: ['Value']
+            if(parseInt(anoString) != anoEscolhido && anoEscolhido != ""){
+                return;
+            }
 
+            ipca.push({month: anoMesString, value: indice});
+
+        });
+
+        if(ipca.length == 0){
+            alert(`Não ha dados para o ano de ${anoEscolhido}`)
         }
+        
+        new Morris.Line({
+            element: 'ipca',
 
+            data: ipca,
+
+            xkey: 'month',
+            ykeys: ['value'],
+            labels: ['IPCA']
+        });
     }).catch(function(){
-
-        alert('API do banco central fora do ar');
-    });
-
+        alert('API do Banco Central esta fora do ar');
+    })
 }
